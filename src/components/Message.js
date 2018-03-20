@@ -3,18 +3,30 @@ import React from 'react'
 const Message= (props) => {
   return (
     <div>
-      <div class="row message unread">
-        <div class="col-xs-1">
-          <div class="row">
-            <div class="col-xs-2">
-              <input type="checkbox" />
+      <div className={
+        `row message ${props.message.read?"read":"unread"} ${props.message.selected?"selected":""}`
+      }>
+        <div className="col-xs-1">
+          <div className="row">
+            <div className="col-xs-2">
+              <input
+                type="checkbox"
+                checked={props.message.selected?"checked":""}
+              />
             </div>
-            <div class="col-xs-2">
-              <i class="star fa fa-star-o"></i>
+            <div className="col-xs-2">
+              <i
+                className={props.message.starred?"star fa fa-star":"star fa fa-star-o"}
+                ></i>
             </div>
           </div>
         </div>
-        <div class="col-xs-11">
+        <div className="col-xs-11">
+          {
+            props.message.labels.map((label, i) => {
+              return <span key={i} className="label label-warning">{label}</span>
+            })
+          }
           <a href="#">
             {props.message.subject}
           </a>
