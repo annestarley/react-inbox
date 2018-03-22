@@ -1,6 +1,16 @@
 import React from 'react'
 
-const Message= (props) => {
+let checkMessage = (message, updateState) => {
+  message.selected = !message.selected
+  updateState(message)
+}
+
+let starMessage = (message, updateState) => {
+  message.starred = !message.starred
+  updateState(message)
+}
+
+const Message = (props) => {
   return (
     <div>
       <div className={
@@ -12,12 +22,14 @@ const Message= (props) => {
               <input
                 type="checkbox"
                 checked={props.message.selected?"checked":""}
+                onChange = {()=>checkMessage(props.message, props.updateState)}
               />
             </div>
             <div className="col-xs-2">
               <i
                 className={props.message.starred?"star fa fa-star":"star fa fa-star-o"}
-                ></i>
+                onClick={()=>starMessage(props.message, props.updateState)}
+              ></i>
             </div>
           </div>
         </div>
