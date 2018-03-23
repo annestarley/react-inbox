@@ -3,7 +3,9 @@ import React from 'react'
 
 const Toolbar = ({
   messageData,
-  selectAll
+  selectAll,
+  markAsRead,
+  markAsUnread
 }) => {
 
   let unread = messageData.filter(message => !message.read)
@@ -14,13 +16,21 @@ const Toolbar = ({
   else if (selected.length === messageData.length) boxIcon = "fa fa-check-square-o"
   else boxIcon = "fa fa-minus-square-o"
 
+  let unreadMessage
+  if (unread.length === 1) unreadMessage = "unread message"
+  else unreadMessage = "unread messages"
+
+  let disabledStatus
+  if (!selected.length) disabledStatus = "disabled"
+  else disabledStatus = ""
+
   return (
     <div>
       <div className="row toolbar">
         <div className="col-md-12">
           <p className="pull-right">
             <span className="badge badge">{unread.length}</span>
-            unread messages
+            {unreadMessage}
           </p>
 
           <button
@@ -30,29 +40,42 @@ const Toolbar = ({
             <i className={boxIcon}></i>
           </button>
 
-          <button className="btn btn-default" disabled="disabled">
+          <button
+            className="btn btn-default"
+            disabled={disabledStatus}
+            onClick={markAsRead}>
             Mark As Read
           </button>
 
-          <button className="btn btn-default" disabled="disabled">
+          <button
+            className="btn btn-default"
+            disabled={disabledStatus}
+            onClick={markAsUnread}>
             Mark As Unread
           </button>
 
-          <select className="form-control label-select" disabled="disabled">
+          <select
+            className="form-control label-select"
+            disabled={disabledStatus}
+            >
             <option>Apply label</option>
             <option value="dev">dev</option>
             <option value="personal">personal</option>
             <option value="gschool">gschool</option>
           </select>
 
-          <select className="form-control label-select" disabled="disabled">
+          <select
+            className="form-control label-select"
+            disabled={disabledStatus}>
             <option>Remove label</option>
             <option value="dev">dev</option>
             <option value="personal">personal</option>
             <option value="gschool">gschool</option>
           </select>
 
-          <button className="btn btn-default" disabled="disabled">
+          <button
+            className="btn btn-default"
+            disabled={disabledStatus}>
             <i className="fa fa-trash-o"></i>
           </button>
         </div>

@@ -98,12 +98,36 @@ class App extends Component {
     })
   }
 
+  markAsRead = () => {
+    let updatedState = this.state.messageData
+
+    updatedState.forEach(x => {
+      if (x.selected) {
+        x.read = true
+        this.updateState(x)
+      }
+    })
+  }
+
+  markAsUnread = () => {
+    let updatedState = this.state.messageData
+
+    updatedState.forEach(x => {
+      if (x.selected) {
+        x.read = false
+        this.updateState(x)
+      }
+    })
+  }
+
   render() {
     return (
       <div className="container">
         <Toolbar
           messageData = {this.state.messageData}
           selectAll = {this.selectAll}
+          markAsRead = {this.markAsRead}
+          markAsUnread = {this.markAsUnread}
         />
         <MessageList
           messageData = {this.state.messageData}
