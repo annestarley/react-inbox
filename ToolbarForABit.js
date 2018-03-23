@@ -5,7 +5,6 @@ const Toolbar = ({
   selectAll,
   markAsRead,
   markAsUnread,
-  deleteMessage,
   applyDev,
   applyPersonal,
   applyGSchool
@@ -59,17 +58,9 @@ const Toolbar = ({
 
           <select className="form-control label-select" disabled={disabledStatus}>
                 <option>Apply label</option>
-                <option
-                  value="dev"
-                  onClick={applyDev}
-                  >dev</option>
-                <option
-                  value="personal"
-                  onClick={applyPersonal}
-                  >personal</option>
-                <option
-                  value="gschool"
-                  onClick={applyGSchool}>gschool</option>
+                <option value="dev" onClick={()=> {console.log('hey')}}>dev</option>
+                <option value="personal">personal</option>
+                <option value="gschool">gschool</option>
               </select>
 
           <select
@@ -89,8 +80,7 @@ const Toolbar = ({
 
           <button
             className="btn btn-default"
-            disabled={disabledStatus}
-            onClick={deleteMessage}>
+            disabled={disabledStatus}>
             <i className="fa fa-trash-o"></i>
           </button>
         </div>

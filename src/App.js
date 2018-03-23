@@ -120,6 +120,65 @@ class App extends Component {
     })
   }
 
+  deleteMessage = () => {
+    let stuffToDelete = []
+    this.state.messageData.forEach(x=> {
+      if (x.selected) {
+        stuffToDelete.push(x)
+      }
+    })
+    stuffToDelete.forEach(x => {
+      this.updateState(x, true)
+    })
+  }
+
+  applyLabel = (label) => {
+    this.state.messageData.forEach(x => {
+      if (x.selected) {
+        if (x.labels.findIndex(x=> x===label) === -1) {
+          x.labels.push(label)
+          this.updateState(x)
+        }
+      }
+    })
+  }
+
+  applyDev = () => {
+    this.applyLabel("dev")
+  }
+
+  applyPersonal = () => {
+    this.applyLabel("personal")
+  }
+
+  applyGSchool = () => {
+    this.applyLabel("gschool")
+  }
+
+  removeLabel = (label) => {
+    this.state.messageData.forEach(x=> {
+      if (x.selected) {
+        let index = x.labels.findIndex(x => x === label)
+        if (index !== -1) {
+          x.labels.splice(label,1)
+          this.updateState(x)
+        }
+      }
+    })
+  }
+
+  removeDev = () => {
+    this.removeLabel("dev")
+  }
+
+  removePersonal = () => {
+    this.removeLabel("personal")
+  }
+
+  removeGSchool = () => {
+    this.removeLabel("gschool")
+  }
+
   render() {
     return (
       <div className="container">
@@ -128,6 +187,10 @@ class App extends Component {
           selectAll = {this.selectAll}
           markAsRead = {this.markAsRead}
           markAsUnread = {this.markAsUnread}
+          deleteMessage = {this.deleteMessage}
+          applyDev = {this.applyDev}
+          applyPersonal = {this.applyPersonal}
+          applyGSchool = {this.applyGSchool}
         />
         <MessageList
           messageData = {this.state.messageData}
