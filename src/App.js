@@ -5,68 +5,31 @@ import MessageList from './components/MessageList'
 
 class App extends Component {
 
-  constructor(){
-    super()
-    this.state={messageData:[
-      {
-        "id": 1,
-        "subject": "You can't input the protocol without calculating the mobile RSS protocol!",
-        "read": false,
-        "starred": true,
-        "labels": ["dev", "personal"]
+  constructor(props){
+    super(props)
+    this.state={
+      messageData: [],
+      fetchingMessages: true,
+      viewComposeForm: false,
+      composeFormContent: {
+        subject: '',
+        body: '',
       },
-      {
-        "id": 2,
-        "subject": "connecting the system won't do anything, we need to input the mobile AI panel!",
-        "read": false,
-        "starred": false,
-        "selected": true,
-        "labels": []
-      },
-      {
-        "id": 3,
-        "subject": "Use the 1080p HTTP feed, then you can parse the cross-platform hard drive!",
-        "read": false,
-        "starred": true,
-        "labels": ["dev"]
-      },
-      {
-        "id": 4,
-        "subject": "We need to program the primary TCP hard drive!",
-        "read": true,
-        "starred": false,
-        "selected": true,
-        "labels": []
-      },
-      {
-        "id": 5,
-        "subject": "If we override the interface, we can get to the HTTP feed through the virtual EXE interface!",
-        "read": false,
-        "starred": false,
-        "labels": ["personal"]
-      },
-      {
-        "id": 6,
-        "subject": "We need to back up the wireless GB driver!",
-        "read": true,
-        "starred": true,
-        "labels": []
-      },
-      {
-        "id": 7,
-        "subject": "We need to index the mobile PCI bus!",
-        "read": true,
-        "starred": false,
-        "labels": ["dev", "personal"]
-      },
-      {
-        "id": 8,
-        "subject": "If we connect the sensor, we can get to the HDD port through the redundant IB firewall!",
-        "read": true,
-        "starred": true,
-        "labels": []
-      }
-    ]}
+    }
+  }
+
+  async componentDidMount () {
+    this.getMessages();
+  }
+
+  async getMessages() {
+    const messageData = await fetch('http://localhost:8082/api/messages')
+    const messageDataJson = await messageData.json()
+
+    this.setState({
+      messageData: messageDataJson._embedded.messages,
+    })
+
   }
 
   updateState = (message, del=false) => {
@@ -98,26 +61,51 @@ class App extends Component {
     })
   }
 
-  markAsRead = () => {
-    let updatedState = this.state.messageData
+  markAsRead = async (event, i) => {
 
-    updatedState.forEach(x => {
-      if (x.selected) {
-        x.read = true
-        this.updateState(x)
+    let readMessages = this.state.messageData.reduce((id, message) => {
+      return message.selected ? [...id, message.id ] : id
+    }, [])
+
+    const requestBody = {
+      "messageIds": readMessages,
+      "command": "read",
+      "read": true
+    }
+
+    await fetch('http://localhost:8082/api/messages', {
+      method: 'PATCH',
+      body: JSON.stringify(requestBody),
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
       }
     })
+
+    this.getMessages()
   }
 
-  markAsUnread = () => {
-    let updatedState = this.state.messageData
+  markAsUnread = async (event, i) => {
+    let unreadMessages = this.state.messageData.reduce((ids, message) => {
+      return message.selected ? [ ...ids, message.id] : ids
+    }, [])
 
-    updatedState.forEach(x => {
-      if (x.selected) {
-        x.read = false
-        this.updateState(x)
+    const requestBody = {
+      "messageIds": unreadMessages,
+      "command": "read",
+      "read": false
+    }
+
+    await fetch('http://localhost:8082/api/messages', {
+      method: 'PATCH',
+      body: JSON.stringify(requestBody),
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
       }
     })
+
+    this.getMessages()
   }
 
   deleteMessage = () => {
@@ -144,15 +132,15 @@ class App extends Component {
   }
 
   applyDev = () => {
-    this.applyLabel("dev")
+    return this.applyLabel("dev")
   }
 
   applyPersonal = () => {
-    this.applyLabel("personal")
+    return this.applyLabel("personal")
   }
 
   applyGSchool = () => {
-    this.applyLabel("gschool")
+    return this.applyLabel("gschool")
   }
 
   removeLabel = (label) => {
@@ -168,15 +156,15 @@ class App extends Component {
   }
 
   removeDev = () => {
-    this.removeLabel("dev")
+    return this.removeLabel("dev")
   }
 
   removePersonal = () => {
-    this.removeLabel("personal")
+    return this.removeLabel("personal")
   }
 
   removeGSchool = () => {
-    this.removeLabel("gschool")
+    return this.removeLabel("gschool")
   }
 
   render() {
