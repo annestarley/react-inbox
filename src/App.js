@@ -172,9 +172,25 @@ class App extends Component {
     this.updateState(message)
   }
 
-  starMessage = (message, updateState) => {
-    message.starred = !message.starred
-    this.updateState(message)
+  starMessage = async (event, i) => {
+    let starredMessage = [this.state.messageData[i].id]
+
+    const requestBody = {
+      "messageIds": starredMessage,
+      "command": "star",
+      "star": !this.state.messageData[i].starred,
+    }
+
+    await fetch('http://localhost:8082/api/messages', {
+      method: 'PATCH',
+      body: JSON.stringify(requestBody),
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        }
+    })
+
+    this.getMessages()
   }
 
   render() {
