@@ -167,6 +167,16 @@ class App extends Component {
     return this.removeLabel("gschool")
   }
 
+  checkMessage = (message, updateState) => {
+    message.selected = !message.selected
+    this.updateState(message)
+  }
+
+  starMessage = (message, updateState) => {
+    message.starred = !message.starred
+    this.updateState(message)
+  }
+
   render() {
     return (
       <div className="container">
@@ -183,6 +193,8 @@ class App extends Component {
         <MessageList
           messageData = {this.state.messageData}
           updateState= {this.updateState}
+          starMessage= {this.starMessage}
+          checkMessage= {this.checkMessage}
         />
       </div>
     );

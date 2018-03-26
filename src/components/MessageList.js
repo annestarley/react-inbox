@@ -4,7 +4,9 @@ import Message from './Message'
 
 const MessageList = ({
     messageData,
-    updateState
+    updateState,
+    starMessage,
+    checkMessage
   }) => {
 
   return (
@@ -16,6 +18,7 @@ const MessageList = ({
             value={i}
             message={message}
             updateState={updateState}
+            starMessage={ (event) => {starMessage(event, i)}}
           />
         })
       }
