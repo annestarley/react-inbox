@@ -241,6 +241,32 @@ class App extends Component {
     })
   }
 
+  sendMessage = async (e) => {
+    e.preventDefault()
+
+    let newMessage = this.state.composeFormContent
+    if (!newMessage.subject) newMessage.subject = 'no subject'
+
+    await fetch('http://localhost:8082/api/messages', {
+      method: 'POST',
+      body: JSON.stringify(newMessage),
+      headers: {
+        'Content-type': 'application/json',
+        'Accept': 'application/json'
+      }
+    })
+
+    this.setState({
+      viewComposeForm: false,
+      composerFormContent: {
+        subject: '',
+        body: '',
+      }
+    })
+
+    this.getMessages()
+  }
+
   render() {
     return (
       <div className="container">
@@ -260,6 +286,7 @@ class App extends Component {
           viewComposeForm = {this.state.viewComposeForm}
           subject = {this.subject}
           body = {this.body}
+          sendMessage = {this.sendMessage}
 
         />
         <MessageList

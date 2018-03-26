@@ -3,7 +3,8 @@ import React from 'react'
 const ComposeForm = ({
   viewComposeForm,
   subject,
-  body
+  body,
+  sendMessage
 }) => {
 
   let toggle = viewComposeForm ? 'block' : 'none'
@@ -46,6 +47,7 @@ const ComposeForm = ({
               type="submit"
               value="Send"
               className="btn btn-primary"
+              onClick={sendMessage}
             />
           </div>
         </div>
