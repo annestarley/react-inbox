@@ -19,6 +19,7 @@ const MessageList = ({
             message={message}
             updateState={updateState}
             starMessage={ (event) => {starMessage(event, i)}}
+            checkMessage={ (event) =>{checkMessage(event, i)}}
           />
         })
       }

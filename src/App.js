@@ -108,16 +108,26 @@ class App extends Component {
     this.getMessages()
   }
 
-  deleteMessage = () => {
-    let stuffToDelete = []
-    this.state.messageData.forEach(x=> {
-      if (x.selected) {
-        stuffToDelete.push(x)
+  deleteMessage = async (event, i) => {
+    let stuffToDelete = this.state.messageData.reduce((ids, message)=> {
+      return message.selected ? [...ids, message.id] : ids
+    }, [])
+
+    const requestBody = {
+      "messageIds": stuffToDelete,
+      "command": "delete",
+    }
+
+    await fetch('http://localhost:8082/api/messages', {
+      method: 'PATCH',
+      body: JSON.stringify(requestBody),
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
       }
     })
-    stuffToDelete.forEach(x => {
-      this.updateState(x, true)
-    })
+
+    this.getMessages()
   }
 
   applyLabel = (label) => {

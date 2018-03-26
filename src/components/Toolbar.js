@@ -36,6 +36,10 @@ const Toolbar = ({
             {unreadMessage}
           </p>
 
+          <a class="btn btn-danger">
+            <i class="fa fa-plus"></i>
+          </a>
+
           <button
               className="btn btn-default"
               onClick={selectAll}
