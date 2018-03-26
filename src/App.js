@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import Toolbar from './components/Toolbar'
 import MessageList from './components/MessageList'
+import ComposeForm from './components/ComposeForm'
 
 class App extends Component {
 
@@ -203,6 +204,21 @@ class App extends Component {
     this.getMessages()
   }
 
+  composeMessage = () => {
+    let toggleState = this.state.viewComposeForm
+    toggleState = !toggleState
+
+    this.setState({
+      ...this.state,
+      viewComposeForm: toggleState,
+      composeFormContent: {
+        subject: '',
+        body: '',
+      },
+    })
+
+  }
+
   render() {
     return (
       <div className="container">
@@ -215,6 +231,12 @@ class App extends Component {
           applyDev = {this.applyDev}
           applyPersonal = {this.applyPersonal}
           applyGSchool = {this.applyGSchool}
+          composeMessage = {this.composeMessage}
+        />
+        <ComposeForm
+          composeMessage = {this.composeMessage}
+          viewComposeForm = {this.state.viewComposeForm}
+
         />
         <MessageList
           messageData = {this.state.messageData}

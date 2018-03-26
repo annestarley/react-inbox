@@ -8,7 +8,8 @@ const Toolbar = ({
   deleteMessage,
   applyDev,
   applyPersonal,
-  applyGSchool
+  applyGSchool,
+  composeMessage
 }) => {
 
   let unread = messageData.filter(message => !message.read)
@@ -36,8 +37,11 @@ const Toolbar = ({
             {unreadMessage}
           </p>
 
-          <a class="btn btn-danger">
-            <i class="fa fa-plus"></i>
+          <a
+            className="btn btn-danger"
+            onClick={composeMessage}
+          >
+            <i className="fa fa-plus"></i>
           </a>
 
           <button
