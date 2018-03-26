@@ -219,6 +219,28 @@ class App extends Component {
 
   }
 
+  subject = (e) => {
+    let subject = e.target.value
+
+    this.setState({
+      composeFormContent: {
+        ...this.state.composeFormContent,
+        subject: subject,
+      }
+    })
+  }
+
+  body = (e) => {
+    let body = e.target.value
+
+    this.setState({
+      composeFormContent: {
+        ...this.state.composeFormContent,
+        body: body,
+      }
+    })
+  }
+
   render() {
     return (
       <div className="container">
@@ -236,6 +258,8 @@ class App extends Component {
         <ComposeForm
           composeMessage = {this.composeMessage}
           viewComposeForm = {this.state.viewComposeForm}
+          subject = {this.subject}
+          body = {this.body}
 
         />
         <MessageList

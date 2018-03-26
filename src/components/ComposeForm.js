@@ -1,7 +1,9 @@
 import React from 'react'
 
 const ComposeForm = ({
-  viewComposeForm
+  viewComposeForm,
+  subject,
+  body
 }) => {
 
   let toggle = viewComposeForm ? 'block' : 'none'
@@ -23,6 +25,7 @@ const ComposeForm = ({
               id="subject"
               placeholder="Enter a subject"
               name="subject"
+              onChange={ (e) => {subject(e)}}
             />
           </div>
         </div>
@@ -33,6 +36,7 @@ const ComposeForm = ({
               name="body"
               id="body"
               className="form-control"
+              onChange={ (e) => {body(e)}}
             />
           </div>
         </div>
